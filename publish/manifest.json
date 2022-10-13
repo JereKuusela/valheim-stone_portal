@@ -1,0 +1,9 @@
+{
+  "name": "Stone_Portal",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/JereKuusela/valheim-stone_portal",
+  "description": "Enables the stone portal from the game files.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.1901"
+  ]
+}
