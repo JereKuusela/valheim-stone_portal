@@ -6,14 +6,14 @@
     <nullable>enable</nullable>
     <DoILRepack>false</DoILRepack>
   </PropertyGroup>
-  <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-        <ItemGroup>
-            <InputAssemblies Include="$(TargetPath)" />
-            <InputAssemblies Include="$(ProjectDir)\..\..\Libs\ServerSync.dll" />
-        </ItemGroup>
-        <ILRepack Parallel="true" Internalize="true" InputAssemblies="@(InputAssemblies)" TargetKind="Dll" OutputFile="$(TargetPath)" />
+  <Target Name="ILRepacker" AfterTargets="Build" >
+      <ItemGroup>
+          <InputAssemblies Include="$(TargetPath)" />
+          <InputAssemblies Include="$(ProjectDir)\..\..\Libs\ServerSync.dll" />
+      </ItemGroup>
+      <ILRepack Parallel="true" Internalize="true" InputAssemblies="@(InputAssemblies)" TargetKind="Dll" OutputFile="$(TargetPath)" />
   </Target>
-  <Target Name="CopyDLL" AfterTargets="Build">
+  <Target Name="CopyDLL" AfterTargets="ILRepacker">
     <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(ProjectDir)\..\..\Libs" />
     <Message Text="Copied to Libs folder." Importance="High" />
   </Target>
