@@ -25,7 +25,7 @@ public class Plugin : BaseUnityPlugin {
     Log = Logger;
     configEnabled = config("General", "Enabled", true, "Recipe enabled.");
     configEnabled.SettingChanged += (s, e) => Fix(ZNetScene.instance);
-    configRequirements = config("General", "Recipe", "Wood", "Recipe");
+    configRequirements = config("General", "Recipe", "GreydwarfEye:20,SurtlingCore:10,Obsidian:100,Thunderstone:10", "Recipe (id:amount,id:amount,...)");
     configRequirements.SettingChanged += (s, e) => Fix(ZNetScene.instance);
     new Harmony(GUID).PatchAll();
     try {

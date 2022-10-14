@@ -8,6 +8,11 @@ If not installed on the server, the configuration is not synced.
 
 If not installed on a client, being near the portal prints errors to the console.
 
+# Configuration
+
+- Enabled: If disabled, the portal can't be crafted without cheats.
+- Recipe: Required items. Format is `id:amount,id:amount,...`
+
 # Changelog
 
 - v1.0
