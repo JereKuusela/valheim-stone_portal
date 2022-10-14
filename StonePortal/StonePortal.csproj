@@ -9,7 +9,7 @@
   <Target Name="ILRepacker" AfterTargets="Build" >
       <ItemGroup>
           <InputAssemblies Include="$(TargetPath)" />
-          <InputAssemblies Include="$(ProjectDir)\..\..\Libs\ServerSync.dll" />
+          <InputAssemblies Include="$(ProjectDir)..\..\Libs\ServerSync.dll" />
       </ItemGroup>
       <ILRepack Parallel="true" Internalize="true" InputAssemblies="@(InputAssemblies)" TargetKind="Dll" OutputFile="$(TargetPath)" />
   </Target>
