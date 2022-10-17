@@ -13,11 +13,13 @@ namespace StonePortal;
 public class Plugin : BaseUnityPlugin {
   const string GUID = "stone_portal";
   const string NAME = "Stone Portal";
-  const string VERSION = "1.0";
+  const string VERSION = "1.1";
+  const string PREFAB = "portal";
   ConfigSync configSync = new ConfigSync(GUID) { DisplayName = NAME, CurrentVersion = VERSION, IsLocked = true };
 
 #nullable disable
   public static ConfigEntry<bool> configEnabled;
+  public static ConfigEntry<bool> configIgnoreRestrictions;
   public static ConfigEntry<string> configRequirements;
   public static ManualLogSource Log;
 #nullable enable
@@ -25,6 +27,8 @@ public class Plugin : BaseUnityPlugin {
     Log = Logger;
     configEnabled = config("General", "Enabled", true, "Recipe enabled.");
     configEnabled.SettingChanged += (s, e) => Fix(ZNetScene.instance);
+    configIgnoreRestrictions = config("General", "No restrictions", false, "If enabled, all items can be teleported.");
+    configIgnoreRestrictions.SettingChanged += (s, e) => Fix(ZNetScene.instance);
     configRequirements = config("General", "Recipe", "GreydwarfEye:20,SurtlingCore:10,Obsidian:100,Thunderstone:10", "Recipe (id:amount,id:amount,...)");
     configRequirements.SettingChanged += (s, e) => Fix(ZNetScene.instance);
     new Harmony(GUID).PatchAll();
@@ -66,7 +70,7 @@ public class Plugin : BaseUnityPlugin {
   }
   static void Fix(ZNetScene zs) {
     if (!zs) return;
-    if (!zs.m_namedPrefabs.TryGetValue("portal".GetStableHashCode(), out var portal)) return;
+    if (!zs.m_namedPrefabs.TryGetValue(PREFAB.GetStableHashCode(), out var portal)) return;
     FixPortal(portal.GetComponent<TeleportWorld>());
     FixRecipe(zs, portal.GetComponent<Piece>());
     if (!zs.m_namedPrefabs.TryGetValue("Hammer".GetStableHashCode(), out var hammer)) return;
@@ -83,10 +87,40 @@ public class Plugin : BaseUnityPlugin {
   [HarmonyPatch(typeof(ZDOMan), nameof(ZDOMan.GetAllZDOsWithPrefabIterative)), HarmonyPrefix]
   static void FixConnection(ZDOMan __instance, string prefab, List<ZDO> zdos, int index) {
     if (prefab == Game.instance.m_portalPrefab.name) {
-      __instance.GetAllZDOsWithPrefabIterative("portal", zdos, ref index);
+      __instance.GetAllZDOsWithPrefabIterative(PREFAB, zdos, ref index);
     }
   }
 
+
+
+  [HarmonyPatch(typeof(TeleportWorld), nameof(TeleportWorld.UpdatePortal))]
+  public class TeleportWorldUpdatePortal {
+    static void Prefix(TeleportWorld __instance) {
+      if (!configIgnoreRestrictions.Value) return;
+      if (Utils.GetPrefabName(__instance.gameObject) != PREFAB) return;
+      ForceTeleportable.Force = true;
+    }
+    static void Postfix() {
+      ForceTeleportable.Force = false;
+    }
+  }
+  [HarmonyPatch(typeof(TeleportWorld), nameof(TeleportWorld.Teleport))]
+  public class TeleportWorldTeleport {
+    static void Prefix(TeleportWorld __instance) {
+      if (!configIgnoreRestrictions.Value) return;
+      if (Utils.GetPrefabName(__instance.gameObject) != PREFAB) return;
+      ForceTeleportable.Force = true;
+    }
+    static void Postfix() {
+      ForceTeleportable.Force = false;
+    }
+  }
+
+  [HarmonyPatch(typeof(Humanoid), nameof(Humanoid.IsTeleportable))]
+  public class ForceTeleportable {
+    public static bool Force = false;
+    static bool Postfix(bool result) => result || Force;
+  }
   ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description, bool synchronizedSetting = true) {
     ConfigEntry<T> configEntry = Config.Bind(group, name, value, description);
     SyncedConfigEntry<T> syncedConfigEntry = configSync.AddConfigEntry(configEntry);
