@@ -14,7 +14,18 @@ If not installed on a client, being near the portal prints errors to the console
 - Ignore restrictions: If enabled, all items can be teleported.
 - Recipe: Required items. Format is `id:amount,id:amount,...`
 
+# Credits
+
+Thanks for Jiroc for creating the mod icon!
+
+Sources: [GitHub](https://github.com/JereKuusela/valheim-stone_portal)
+
+Donations: [Buy me a computer](https://www.buymeacoffee.com/jerekuusela)
+
 # Changelog
+
+- v1.2
+	- Fixes the black screen.
 
 - v1.1
 	- Adds a setting to ignore portal restrictions.

@@ -1,9 +1,23 @@
-# valheim-stone_portal
+# Stone Portal
 
-This project is a game play tweak to a game called Valheim.
+Enables the stone portal from the game files.
 
-To compile, you need to manually add correct libraries to Libs folder. Check project file for needed ones.
+Install on all clients and on the server (modding [guide](https://youtu.be/L9ljm2eKLrk)).
 
-- Download BepInEx for Valheim and use DLLs from core and unstripped_corlib folders.
-- Valheim DLLs can be found from Valheim_Data/Manageed folder.
-- DLLS which end with _publicized require using https://github.com/CabbageCrow/AssemblyPublicizer.
+If not installed on the server, the configuration is not synced.
+
+If not installed on a client, being near the portal prints errors to the console.
+
+# Configuration
+
+- Enabled: If disabled, the portal can't be crafted without cheats.
+- Ignore restrictions: If enabled, all items can be teleported.
+- Recipe: Required items. Format is `id:amount,id:amount,...`
+
+# Credits
+
+Thanks for Jiroc for creating the mod icon!
+
+Sources: [GitHub](https://github.com/JereKuusela/valheim-stone_portal)
+
+Donations: [Buy me a computer](https://www.buymeacoffee.com/jerekuusela)

@@ -13,7 +13,7 @@ namespace StonePortal;
 public class Plugin : BaseUnityPlugin {
   const string GUID = "stone_portal";
   const string NAME = "Stone Portal";
-  const string VERSION = "1.1";
+  const string VERSION = "1.2";
   const string PREFAB = "portal";
   ConfigSync configSync = new ConfigSync(GUID) { DisplayName = NAME, CurrentVersion = VERSION, IsLocked = true };
 
