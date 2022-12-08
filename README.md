@@ -11,6 +11,7 @@ If not installed on a client, being near the portal prints errors to the console
 # Configuration
 
 - Enabled: If disabled, the portal can't be crafted without cheats.
+- Crafting station: Required crafting station (see https://valheim.fandom.com/wiki/Item_IDs).
 - Ignore restrictions: If enabled, all items can be teleported.
 - Recipe: Required items. Format is `id:amount,id:amount,...`
 
