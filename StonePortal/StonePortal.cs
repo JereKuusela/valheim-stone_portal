@@ -7,7 +7,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using ServerSync;
 
-namespace StonePortal;
+namespace StonePortal { 
 [HarmonyPatch]
 [BepInPlugin(GUID, NAME, VERSION)]
 public class Plugin : BaseUnityPlugin
@@ -37,6 +37,12 @@ public class Plugin : BaseUnityPlugin
     configRequirements = config("General", "Recipe", "GreydwarfEye:20,SurtlingCore:10,Obsidian:100,Thunderstone:10", "Recipe (id:amount,id:amount,...)");
     configRequirements.SettingChanged += (s, e) => Fix(ZNetScene.instance);
     new Harmony(GUID).PatchAll();
+
+    // Activate the custom portal patch by giving it the prefabs for each portal we're adding.
+    // The patch updates several places in vanilla code which use hardcoded comparisons against the regular prefab,
+    // patching them to also check for our Stone Portal prefab.
+    AddPortal.hashes.Add(PREFAB.GetStableHashCode());
+
     try
     {
       SetupWatcher();
@@ -103,17 +109,6 @@ public class Plugin : BaseUnityPlugin
 
   [HarmonyPatch(typeof(ZNetScene), nameof(ZNetScene.Awake)), HarmonyPostfix]
   static void StonePortalRecipe(ZNetScene __instance) => Fix(__instance);
-
-  [HarmonyPatch(typeof(ZDOMan), nameof(ZDOMan.GetAllZDOsWithPrefabIterative)), HarmonyPrefix]
-  static void FixConnection(ZDOMan __instance, string prefab, List<ZDO> zdos, int index)
-  {
-    if (prefab == Game.instance.m_portalPrefab.name)
-    {
-      __instance.GetAllZDOsWithPrefabIterative(PREFAB, zdos, ref index);
-    }
-  }
-
-
 
   [HarmonyPatch(typeof(TeleportWorld), nameof(TeleportWorld.UpdatePortal))]
   public class TeleportWorldUpdatePortal
@@ -190,4 +185,5 @@ public class Plugin : BaseUnityPlugin
       Log.LogError("Please check your config entries for spelling and format!");
     }
   }
+}
 }
