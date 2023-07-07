@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
@@ -7,16 +6,16 @@ using BepInEx.Logging;
 using HarmonyLib;
 using ServerSync;
 
-namespace StonePortal { 
+namespace StonePortal;
 [HarmonyPatch]
 [BepInPlugin(GUID, NAME, VERSION)]
 public class Plugin : BaseUnityPlugin
 {
   const string GUID = "stone_portal";
   const string NAME = "Stone Portal";
-  const string VERSION = "1.3";
+  const string VERSION = "1.4";
   const string PREFAB = "portal";
-  ConfigSync configSync = new ConfigSync(GUID) { DisplayName = NAME, CurrentVersion = VERSION, IsLocked = true };
+  readonly ConfigSync configSync = new(GUID) { DisplayName = NAME, CurrentVersion = VERSION, IsLocked = true };
 
 #nullable disable
   public static ConfigEntry<bool> configEnabled;
@@ -185,5 +184,4 @@ public class Plugin : BaseUnityPlugin
       Log.LogError("Please check your config entries for spelling and format!");
     }
   }
-}
 }

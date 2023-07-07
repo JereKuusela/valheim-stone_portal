@@ -19,20 +19,8 @@ If not installed on a client, being near the portal prints errors to the console
 
 Thanks for Jiroc for creating the mod icon!
 
+Thanks bonesbro for fixing the mod for the new Valheim update!
+
 Sources: [GitHub](https://github.com/JereKuusela/valheim-stone_portal)
 
 Donations: [Buy me a computer](https://www.buymeacoffee.com/jerekuusela)
-
-# Changelog
-
-- v1.3
-	- Adds a setting for the crafting station.
-
-- v1.2
-	- Fixes the black screen.
-
-- v1.1
-	- Adds a setting to ignore portal restrictions.
-
-- v1.0
-	- Initial release.
