@@ -13,7 +13,7 @@ public class Plugin : BaseUnityPlugin
 {
   const string GUID = "stone_portal";
   const string NAME = "Stone Portal";
-  const string VERSION = "1.4";
+  const string VERSION = "1.5";
   const string PREFAB = "portal";
   readonly ConfigSync configSync = new(GUID) { DisplayName = NAME, CurrentVersion = VERSION, IsLocked = true };
 
@@ -36,12 +36,6 @@ public class Plugin : BaseUnityPlugin
     configRequirements = config("General", "Recipe", "GreydwarfEye:20,SurtlingCore:10,Obsidian:100,Thunderstone:10", "Recipe (id:amount,id:amount,...)");
     configRequirements.SettingChanged += (s, e) => Fix(ZNetScene.instance);
     new Harmony(GUID).PatchAll();
-
-    // Activate the custom portal patch by giving it the prefabs for each portal we're adding.
-    // The patch updates several places in vanilla code which use hardcoded comparisons against the regular prefab,
-    // patching them to also check for our Stone Portal prefab.
-    AddPortal.hashes.Add(PREFAB.GetStableHashCode());
-
     try
     {
       SetupWatcher();
@@ -49,21 +43,6 @@ public class Plugin : BaseUnityPlugin
     catch
     {
       //
-    }
-  }
-  static void FixPortal(TeleportWorld tp)
-  {
-    if (!tp) return;
-    Log.LogInfo("Fixing Stone Portal object.");
-    if (!tp.m_proximityRoot)
-      tp.m_proximityRoot = tp.transform;
-    if (!tp.m_target_found)
-    {
-      var tr = tp.transform.Find("_target_found");
-      tr.gameObject.SetActive(true);
-      var fade = tr.gameObject.AddComponent<EffectFade>();
-      fade.m_fadeDuration = 1f;
-      tp.m_target_found = fade;
     }
   }
   static void FixRecipe(ZNetScene zs, Piece piece)
@@ -95,7 +74,6 @@ public class Plugin : BaseUnityPlugin
   {
     if (!zs) return;
     if (!zs.m_namedPrefabs.TryGetValue(PREFAB.GetStableHashCode(), out var portal)) return;
-    FixPortal(portal.GetComponent<TeleportWorld>());
     FixRecipe(zs, portal.GetComponent<Piece>());
     if (!zs.m_namedPrefabs.TryGetValue("Hammer".GetStableHashCode(), out var hammer)) return;
     if (hammer.GetComponent<ItemDrop>() is { } item)

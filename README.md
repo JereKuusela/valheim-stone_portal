@@ -6,16 +6,14 @@ Install on all clients and on the server (modding [guide](https://youtu.be/L9ljm
 
 If not installed on the server, the configuration is not synced.
 
-If not installed on a client, being near the portal prints errors to the console.
-
-# Configuration
+## Configuration
 
 - Enabled: If disabled, the portal can't be crafted without cheats.
-- Crafting station: Required crafting station (see https://valheim.fandom.com/wiki/Item_IDs).
+- Crafting station: Required crafting station (see <https://valheim.fandom.com/wiki/Item_IDs>).
 - Ignore restrictions: If enabled, all items can be teleported.
 - Recipe: Required items. Format is `id:amount,id:amount,...`
 
-# Credits
+## Credits
 
 Thanks for Jiroc for creating the mod icon!
 
