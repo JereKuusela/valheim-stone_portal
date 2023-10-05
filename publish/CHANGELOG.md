@@ -1,3 +1,6 @@
+- v1.6
+  - Fixed for the new patch.
+
 - v1.5
   - Fixed for the new patch.
 
@@ -9,9 +12,3 @@
 
 - v1.2
   - Fixes the black screen.
-
-- v1.1
-  - Adds a setting to ignore portal restrictions.
-
-- v1.0
-  - Initial release.

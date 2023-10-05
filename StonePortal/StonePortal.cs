@@ -13,7 +13,7 @@ public class Plugin : BaseUnityPlugin
 {
   const string GUID = "stone_portal";
   const string NAME = "Stone Portal";
-  const string VERSION = "1.5";
+  const string VERSION = "1.6";
   const string PREFAB = "portal";
   readonly ConfigSync configSync = new(GUID) { DisplayName = NAME, CurrentVersion = VERSION, IsLocked = true };
 
